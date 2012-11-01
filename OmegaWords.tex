@@ -1,0 +1,741 @@
+\documentclass{llncs}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amssymb,amsmath}
+
+\begin{document}
+
+
+\title{Probabilistic, frequency and quantum  automata on omega-words
+\thanks{%
+The research was supported by  Project 2009/0216/1DP/1.1.1.2.0/09/IPIA/VIA/044
+from the 
+European Social Fund.
+} 
+}
+
+\author{
+Ieva Ruk\v s\= ane,
+Rihards Kri\v slauks,
+Taisia Mischenko-Slatenkova,\\
+Ilze Dzelme-B\= erzi\c na,
+R\= usi\c n\v s Freivalds}
+\institute{Institute of Mathematics and Computer Science,
+ University of Latvia,\\ Rai\c na bulv\= aris 29, Riga, LV-1459, Latvia
+}
+
+\maketitle
+
+\begin{abstract}  Frequency computation was introduced in 1960-ies in an attempt to show that many properties of probabilistic algorithms can be simulated by purely deterministic computational devices. The aim of this paper is to show that for automata working on infinite input tapes the situation is very much different. Technically our main result shows that there is an $\omega$-language recognized with a bounded error by a 2-way probabilistic finite automaton but not by any 1-way probabilistic finite automata. On the other hand, such a distinction is not possible for frequency finite automata.
+
+\end{abstract} 
+
+\section{Introduction}
+
+
+Pascal and Fermat believed that every event of indeterminism can be described by a real number between 0 and 1 called 
+{\em probability}. Quantum physics introduced a description in terms of complex numbers called {\em amplitude of 
+probabilities} and later in terms of probabilistic combinations of amplitudes most conveniently described by {\em density
+matrices}.
+
+
+
+
+Physicists are well aware that physical indeterminism is a complicated phenomenon and probabilistical models are merely reasonably good approximations of reality. The problem "What is randomness?" has always been interesting not only for philosophers and physicists but also for computer scientists. The term "nondeterministic algorithm" has been deliberately coined  to differ from "indeterminism".
+
+Probabilistic (randomized) algorithms is one of central notions in Theory of Computation. However, since long ago computer scientists have attempted to develop notions and technical implementations of these notions that would be similar to but not equal to randomization.
+ 
+
+The notion of frequency computation was introduced by G.~Rose \cite{R60} as an attempt to have an absolutely deterministic mechanism with properties similar to probabilistic algorithms. The definition was as follows. A function $f$: $w \to w$ is $(m,n)$-computable, where $1 \leq m \leq n$, iff there exists a recursive function $R$: $w^n \to w^n$ such that, for all $n$-tuples $(x_1, \cdots , x_n)$ of distinct natural numbers,
+$$
+card\{i: (R(x_1,\cdots , x_n))_i = f(x_i)\} \geq m.
+$$
+
+R. McNaughton cites in his survey \cite{M61} a problem (posed by J.~Myhill) whether $f$ has  to be recursive if $m$ is close to $n$. This problem was answered by B.A.~Trakhtenbrot \cite{T64} by showing that $f$ is recursive whenever $2m > n$. On the other hand, B.A.~Trakhtenbrot \cite{T64} proved that if $2m = n$ then nonrecursive functions can be $(m,n)$-computed. E.B.~Kinber extended the research  by considering frequency enumeration of sets \cite{K72}. The class of $(m, n)$-computable sets equals the class of recursive sets if and only if $2m > n$. The notion of frequency computation can be extended to other models of computation.
+Frequency computation in polynomial time was discussed in full detail by M.Hinrichs and G.Wechsung \cite{HW97}. 
+
+
+ For resource bounded computations, the behavior of frequency computability is completely different: for e.g., whenever $n' - m' > n - m$, it is known that under any reasonable resource bound there are sets $(m', n')$-computable, but not $(m, n)$-computable. However, scaling down to finite automata, the analogue of Trakhtenbrot's result holds again: We show here that the class of languages $(m, n)$-recognizable by deterministic finite automata equals the class of regular languages if and only if $2m > n$.   Conversely, for
+  $2m > n$, the class of languages $(m, n)$-recognizable by deterministic finite automata \cite{ADHP05} is uncountable for a two-letter alphabet. When restricted to a one-letter alphabet, then every $(m,n)$-recognizable language is regular. This was also shown by Kinber.
+  
+Frequency computations became increasingly popular when relation between frequency computation and computation with a small number of queries was discovered \cite{K92,HKO92,BGK96,CKKK97}.   However, there still remains a fundamental problem: is there a class of automata $A$ such that probabilistic $A$-automata can perform an action such that no frequency automaton can, and is there a class of automata $B$ such that frequency $A$-automata can perform an action such that no probabilistic automaton can.
+
+
+
+
+
+
+
+The study of finite state automata working on infinite words was initiated by B\"uchi \cite{Bu60}. B\"uchi discovered connection between formulas of the monadic second order logic of infinite sequences (S1S) and $\omega$-regular languages, the class of languages over infinite words accepted by finite state automata. Few years later, Muller proposed an alternative definition of finite state automata on infinite words \cite{Mu63}. McNaughton proved that with Muller's definition, deterministic finite state automata recognize all $\omega$-regular languages \cite{Mc66}. Later, Rabin extended the decidability result of B\"uchi for S1S to the monadic second order of the infinite binary tree (S2S) \cite{Ra69}. Rabin theorem can be used to settle a number of decision problems in logic. A theory of automata over infinite words has started from these studies.
+
+In the paper, we study probabilistic and frequency finite state automata over infinite words. The probabilistic variants of the finite state automata over infinite words have been recently introduced \cite{BG05}. I. Dzelme-B\= erzi\c na has extensively studied $\omega$-language recognition by quantum automata. She has proved that B\"uchi quantum finite state  automata with bounded error accept a proper subset of the limit languages. She has also shown that Streett acceptance condition is more powerful than B\"uchi acceptance condition also for quantum case. 
+
+\section{Definitions and notations}
+%
+\subsection{Notation}
+%
+This section is devoted to the notations used in the paper. $\Sigma$ denotes a finite set of symbols called alphabet. A word is a sequence of symbols from $\Sigma$. The set $\Sigma^{*}$ represents the set of all finite words over alphabet $\Sigma$, where $\Sigma^{\omega}$ is the set of all infinite words over alphabet $\Sigma$. For infinite word $\alpha$ we write $\alpha = \alpha(0) \alpha(1) \alpha(2)...$ with $\alpha(i) \in \Sigma$. A set of infinite words over a given alphabet is called an $\omega$-language.
+
+The number of occurrences of the symbol $a$ in an infinite word ($\omega$-word) $\alpha$ is denoted by $|\alpha|_a$. For a given $\omega$-word $\alpha \in \Sigma^{\omega}$, let $Occ(\alpha)=\{a \in \Sigma | \exists i \alpha(i) = a\}$ be the finite set of symbols occurring in $\alpha$ and $Inf(\alpha) = \{ a \in \Sigma | \exists^\omega j \alpha(j) = a\}$  where $\exists^\omega$ denotes the quantifier "there exists infinite many".
+%
+\begin{definition}
+\textbf{$\omega$-languages}. Let $U \subseteq \Sigma^{*}$ be a language of finite strings. The limit $U$, $lim(U) = \{\alpha \in \Sigma | \exists^{\omega} n \in N_0: \alpha[0..n] \in U\}$.
+\end{definition}
+
+An $\omega $-word belongs to $lim(U)$ iff it has infinitely many prefixes in U.
+%
+\subsection{Classical  automata}
+%
+In this section, first the basic concepts of $\omega$-automata are presented (for more details refer to \cite{SP02}, \cite{T97}) and then the $\omega$ - quantum finite state automata and group finite state $\omega$-automata are introduced.
+%
+\begin{definition}
+An \textbf{$\omega$-automaton} is a quintuple $A = (Q, \Sigma, \delta, q_0, Acc)$, where
+\begin{itemize}
+\item $Q$ is a finite set of states,
+\item $\Sigma$ is a finite alphabet,
+\item $\delta : Q \times \Sigma \rightarrow 2^{Q}$ is the state transition function,
+\item $q_0 \in Q$ is the initial state,
+\item $Acc$ is the acceptance component. 
+\end{itemize}
+In a deterministic $\omega$-automaton, a transaction function $\delta : Q \times \Sigma \rightarrow Q$ is used.
+\end{definition}
+
+The acceptance component can be given in the different ways. We will consider three different definitions of acceptance component (they will be explained below). 
+
+\begin{definition}
+Let $A = (Q, \Sigma, \delta, q_0, Acc)$ be an $\omega$-automaton. A \textbf{run} of A on an $\omega$-word $\alpha = \alpha_1 \alpha_2 ... \in \Sigma^{\omega}$ is an infinite state sequence $\rho = \rho(0)\rho(1)\rho(2)... \in Q^{\omega}$, such that the following holds:
+\begin{enumerate}
+\item $\rho(0) = q_0$
+\item $\rho(i) \in \delta(\rho (i-1), \alpha _i)$ for $i > 0$ if $A$ is a non-deterministic finite state $\omega$-automaton and $\rho(i) = \delta(\rho(i-1),\alpha_i)$ for $i > 0$ if $A$ is a deterministic finite state $\omega$-automaton.
+\end{enumerate}
+\end{definition}
+
+The acceptance condition $Acc$ defines which of the infinite runs are accepting. In this paper we consider the three types of acceptance conditions.
+
+\begin{definition}
+A \textbf{B\"uchi acceptance condition} $Acc$ is a subset $F$ of $Q$, where the elements of F are called accepting states. An infinite run $\rho=\rho(0)\rho(1)...$ is called B\"uchi accepting if $Inf(\rho)\cap F \neq \emptyset$, it means that run $\rho$ visits the states of $F$ infinitely often.
+\end{definition}
+
+\begin{definition}
+A \textbf{Streett acceptance condition} $Acc$ is a finite set of pairs $(H_i,K_i)$ where $H_i$ and $K_i$ are subsets of $Q$ ($Acc=\{(H_1,K_1),...,(H_s,K_s)\})$. An infinite run $\rho=\rho(0)\rho(1)...$ is called Streett accepting if for each $i \in \{1, 2, ..., s\}$ $Inf(\rho)\cap H_i \neq \emptyset$ or $Inf(\rho)\cap K_i = \emptyset$.
+\end{definition}
+
+\begin{definition}
+A \textbf{Rabin acceptance condition} $Acc$ is a finite set of pairs $(H_i,K_i)$ where $H_i$ and $K_i$ are subsets of $Q$ ($Acc=\{(H_1,K_1),...,(H_s,K_s)\})$. An infinite run $\rho=\rho(0)\rho(1)...$ is called Rabin accepting if there is some $i \in \{1, 2, ..., s\}$ for which $Inf(\rho)\cap H_i = \emptyset$ and $Inf(\rho)\cap K_i \neq \emptyset$.
+\end{definition}
+
+The Streett condition is dual to the Rabin condition. It is therefore sometimes called complemented pair condition. B\"uchi acceptance condition can be considered as the special case of Streett $\{(F, Q)\}$ and Rabin acceptance $\{(\emptyset, F)\}$ conditions. 
+
+$\omega$-automata with B\"uchi acceptance condition are called B\"uchi automata, with Streett acceptance condition - Streett automata, and with Rabin acceptance condition - Rabin automata. 
+
+The accepted language of the $\omega$-automaton $A$ ($L(A)$) is defined as a set of infinite words $\alpha \in \Sigma$ which have accepting run in $A$.
+
+It is known that the classes of languages accepted by non-deterministic B\"uchi automata (NBA), deterministic Streett automata (DSA), non-deterministic Streett automata (NSA), deterministic Rabin automata (DRA), non-deterministic Rabin automata (NRA) are the same. These are $\omega$-regular languages and can be represented by $\omega$-regular expressions (finite sums of expressions in the form $\alpha \beta^{\omega}$, where $\alpha$ and $\beta$ are regular expressions over finite words, and language defined by $\beta$ is non-empty and does not contain empty string). Deterministic B\"uchi automata (DBA) are less powerful, the class of DBA is a proper subclass of the $\omega$-regular languages, DBA recognize limit languages.
+
+\bigskip
+
+\subsection{Quantum automata}
+
+Quantum finite state automata have also different notations. In this paper we will adapt %the two most popular definitions known as 
+a definition of measure-once quantum finite state automata \cite{Mo97} 
+%and measure-many quantum finite state automata \cite{Ko97} 
+for infinite words.
+%
+\begin{definition}
+A \textbf{quantum finite state $\omega$-automaton} is a quintuple $A=(Q, \Sigma, \delta, q_{0}, Acc)$
+\begin{itemize}
+\item $Q$ is a finite set of states,
+\item $\Sigma$ is a finite input alphabet,
+\item $\delta$ is the transition function $\delta : Q \times \Sigma \times Q \rightarrow C_{[0,1]}$, which represents the amplitudes that flows from the state $q \in Q$ to the state $q' \in Q$ after reading symbol $\sigma \in \Sigma$,
+\item $q_0 \in Q$ is the initial state,
+\item $Acc$ is the acceptance component. 
+\end{itemize}
+For all states $q_{1}, q_{2}, q' \in Q$ and symbols $\sigma \in \Sigma$, the function $\delta$ must be unitary, thus the transition function satisfies the condition 
+\begin{center}
+$\sum_{q'}\overline{\delta(q_{1}, \sigma,q')}\delta(q_{2},\sigma, q')=\left\{
+\begin{array}[pos]{l}
+	1 \ (q_{1} = q_{2}) \\
+	0 \ (q_{1} \neq q_{2})
+\end{array} \right.\ $.
+\end{center}
+\end{definition}
+%
+
+The linear superposition of the automaton's A states is represented by a n-dimensional complex unit vector, where $n=\left|Q\right|$. The superposition is denoted by $\left|\phi\right\rangle=\sum^{n}_{i=1}\alpha_{i} \left|q_{i}\right\rangle$, where $\left\{\left| q_{i}\right\rangle\right\}$ is the set orthonormal basis vectors corresponding to the states of the automaton A.
+
+The transition function $\delta$ is represented by a set of unitary matrices $\left\{V_{\sigma} \right\}_{\sigma \in \Sigma}$, where $V_{\sigma}$ is the unitary transition of the automaton A after reading the symbol $\sigma$ and is defined by $V_{\sigma}(\mid q \rangle)=\sum_{q'\in Q}\delta(q,\sigma , q')\mid q' \rangle$.
+
+A computation of the automaton A on an input word $\alpha=a_1a_2a_3.... \in \Sigma^{\omega}$ proceeds as follows. It starts computation in the superposition $\mid q_{0} \rangle$, a transition corresponding to the current input letter is performed. 
+%
+\begin{definition}
+Let $A = (Q, \Sigma, \delta, q_0, Acc)$ be a quantum finite state $\omega$-automaton. A \textbf{run} of A on an $\omega$-word $\alpha = a_1 a_2 ... \in \Sigma^{\omega}$ is an infinite sequence of superpositions $\psi_\omega = |\psi(0)\rangle|\psi(1)\rangle|\psi(2)\rangle...$, where $\left|\psi(j)\right\rangle=\sum^{n}_{i=1}\alpha_{i} \left|q_{i}\right\rangle$ ($\left\{\left| q_{i}\right\rangle\right\}$ is the set of the automaton's A states), such that the following holds:
+\begin{enumerate}
+\item $\mid \psi(0) \rangle = \mid q_{0} \rangle$
+\item $\mid \psi(i) \rangle = V_{a_i} \mid \psi(i-1) \rangle$ for $i > 0$.
+\end{enumerate}
+\end{definition}
+%
+
+The acceptance condition can be viewed in the similar way as for classical $\omega$-automata. In this paper, we examine quantum finite state $\omega$-automata with B\"uchi, Streett and Rabin acceptance condition and we use the abbreviations: QBA for B\"uchi quantum finite state automata, QSA for Streett quantum finite state automata, and QRA for Rabin quantum finite state automata.
+
+\begin{definition}
+A superposition $\left|\phi\right\rangle=\sum^{n}_{i=1}\alpha_{i} \left|q_{i}\right\rangle$ is called $F_p$- \textbf{accepting} ($F \subseteq Q$) if 
+\begin{center}
+$\sum_{q_i \in F}\vert\alpha_{i}\vert^2 \geq p$,
+\end{center}
+where $p$ is acceptance probability of the superposition.
+\end{definition}
+
+\begin{definition}
+A \textbf{B\"uchi acceptance condition for quantum case} $Acc$ is a subset $F$ of $Q$, where the elements of $F$ are called accepting states. An infinite run $\psi_\omega = |\psi(0)\rangle|\psi(1)\rangle|\psi(2)\rangle...$ is called B\"uchi accepting with probability $p$ if run $\psi_\omega$ visits $F_p$-accepting superpositions infinitely often.
+\end{definition}
+
+\begin{definition}
+A \textbf{Streett acceptance condition} $Acc$ is a finite set of pairs $(H_i,K_i)$ where $H_i$ and $K_i$ are subsets of $Q$ ($Acc={(H_1,K_1),...,(H_s,K_s)}.$ An infinite run $\psi_\omega = |\psi(0)\rangle|\psi(1)\rangle|\psi(2)\rangle...$ is called Streett accepting with probability $p$ if for each $i \in \{1, 2, ..., s\}$ $\psi_\omega$ contains infinite number of $H_{i\ p}$ accepting superpositions or $\psi_\omega$ contains only finite number of $K_{i\ p}$ accepting superpositions.
+\end{definition}
+
+\begin{definition}
+A \textbf{Rabin acceptance condition} $Acc$ is a finite set of pairs $(H_i,K_i)$ where $H_i$ and $K_i$ are subsets of $Q$ ($Acc={(H_1,K_1),...,(H_s,K_s)}.$ An infinite run $\psi_\omega = |\psi(0)\rangle|\psi(1)\rangle|\psi(2)\rangle...$ is called Rabin accepting with probability $p$ if there is some $i \in \{1, 2, ..., s\}$ for which $\psi_\omega$ contains only finite number of $H_{i\ p}$-accepting and $K_{i\ p}$ -accepting superpositions.
+\end{definition}
+%
+The language accepted by a quantum finite state $\omega$-automaton $A$ with the alphabet $\Sigma$ and cut-point $\lambda$, denoted $L_\lambda(A)$, is defined as set of infinite words $\sigma \in \Sigma$ that have accepting run with probability $p > \lambda$ in $A$. A quantum finite state $\omega$-automaton accepts language with bounded error if there exists an $\epsilon >0$ such that for all accepting runs probability is greater than $\lambda + \epsilon$.
+
+
+
+
+
+
+\section{Results}
+
+R.Freivalds \cite{F81} proved that the language $\{0^n1^n\}$ can be recognized by 2-way probabilistic finite automata with an arbitrarily high probability
+ $1 - \epsilon $. Our main result considers the language
+$$
+L = \{0^{m_1}1^{n_1}20^{m_2}1^{n_2}2\cdots \}
+$$
+where  each word in $L$ contains infinitely many symbols 2, and 
+$$
+\sum_{k \in R}{2^{-n_k}}
+$$
+diverges where $R = \{ k | m_k = n_k \}$.
+  
+ 
+ 
+ 
+\bigskip 
+ 
+\begin{theorem}
+(1) There exists a 2-way probabilistic finite automaton recognizing  the language $L$ with probability 1.\\
+(2) There exists no 1-way probabilistic finite automaton recognizing  the language $L$ with a bounded error.\\
+(3) There exists a 2-way quantum finite automaton recognizing  the language $L$ with probability 1.\\
+(4) There exists no 1-way quantum finite automaton recognizing  the language $L$ with a bounded error.
+\end{theorem}
+
+
+\bigskip
+
+The proof of this Theorem is based on a classical result from theory of probabilities.
+
+\bigskip
+
+
+\noindent {\bf Borel-Cantelli lemma.}
+If $E_1, E_2, \ldots $ is a sequence of independent random events with probabilities  
+$p_1, p_2, \ldots $ then:\\
+-if $\sum _i p_i$ diverges then with probability 1 infinitely many of the events $E_1, E_2, \ldots $ have a positive outcome,\\
+-if $\sum _i p_i$ converges then with probability 1 only a finite number of the events $E_1, E_2, \ldots $ has a positive outcome.
+
+
+\bigskip
+
+
+
+{\bf Proof of Theorem 1.} (1)  Let $c(\epsilon )$ and $d(\epsilon )$ be large natural numbers such that
+$$ 
+2(\frac{1}{2})^{d(\epsilon )} < \epsilon \mbox{       ,        }  (\frac{2^{c(\epsilon )}}{1+2^{c(\epsilon )}})^{d(\epsilon )} > 1-\epsilon .
+$$
+Let the input substring $x$ be of a form $0^{m_k}1^{n_k}$. The automaton processes alternately the block of zeros and the block of ones.
+One processing of a block is a series of options when $c(\epsilon )$ random symbols 0 or 1 are produced per every letter in the block.
+We call the processing to be positive if all the results are 1, and negative otherwise. If the length of the block is $n$ then the probability of a 
+positive processing of it equals $2^{-n.c(\epsilon )}$.
+
+We interpret a processing of an ordered pair of blocks $0^m1^n$ as a competition. A competition where one processing is positive and the other one
+is negative is interpreted as a win of the block processed positively.
+
+The automaton holds competitions until the total number of wins for the given blocks of zeros and ones reaches $d(\epsilon )$. If at this moment  the
+blocks $0^{m_k}$ and $1^{n_k}$ has at least one win each, our $\omega $-automaton enters a special state $q_E$. If all the wins belong to one of the blocks
+$0^{m_k}$ or $1^{n_k}$, then our $\omega $-automaton enters a special state $q_F$. After that the $\omega $-automaton reads the symbol 2, enters a spacial state $q_S$, goes to competitions of the blocks $0^{m_{k+1}}$ and $1^{n_{k+1}}$ and never returns to blocks with smaller indices.
+
+A set of states of this  $\omega $-automaton is declared to be accepting iff it contains the states $q_S$ and $q_E$ but does not contain the state $q_F$.
+
+Let an $\omega $-word be in the $\omega $-language $L$. Then it contains infinitely many symbols 2. Hence the state $q_S$ is entered infinitely often. 
+Additionally,
+ where $R = \{ k | m_k = n_k \}$. Hence by Borel-Cantelli lemma, the state $q_E$ is entered infinitely often with probability 1.
+
+$$
+\sum_{k \in R}{2^{-n_k}}
+$$
+diverges
+Let an $\omega $-word be not in the $\omega $-language $L$ because it contains only a finite number of symbols 2. Then the state $q_S$ is not entered infinitely often.
+
+Let an $\omega $-word be not in the $\omega $-language $L$ because
+$$
+\sum_{k \in R}{2^{-n_k}}
+$$
+diverges. Then by Borel-Cantelli lemma, the state $q_E$ by Borel-Cantelli lemma, the state $q_E$ is entered infinitely often with probability 1 is entered only a finite number of times. 
+
+\bigskip
+
+
+(2) Assume from the contrary that there exists a 1-way probabilistic finite
+automaton $A$ recognizing $L$ with a probability $1 - \delta $ where $\frac{1}{2} > \delta > 0$. Let $r$ be a natural number such that 
+$1-(1+\frac{1}{r}) \delta >\frac{1}{2}$.
+Consider an $\omega $-word
+$x = 0^{m_1}1^{n_1}20^{m_2}1^{n_2}2\cdots 20^{m_s}1^{n_s}2\cdots \in L$. 
+For arbitrary moment $t$ of the processing $x$ by $A$ denote by $p_1(t), p_2(t), \cdots , p_k(t)$ the distribution of probabilities
+of the states $q_1, q_2, \cdots , q_k$ of the automaton $A$. 
+
+Now consider a sequence of $\omega$-words differing from $x$ only in the $s$-th subword $0^{m_s}1^{n_s}$:
+$$
+x_1 = 0^{m_1}1^{n_1}20^{m_2}1^{n_2}2\cdots 20^{m_s+1}1^{n_s+1}2\cdots 
+$$
+$$
+x_2 = 0^{m_1}1^{n_1}20^{m_2}1^{n_2}2\cdots 20^{m_s+2}1^{n_s+2}2\cdots 
+$$
+$$
+\cdots 
+$$
+$$
+x_u = 0^{m_1}1^{n_1}20^{m_2}1^{n_2}2\cdots 20^{m_s+u}1^{n_s+u}2\cdots 
+$$
+$$
+\cdots \\
+$$
+Since $x \in L$, all these $\omega $-words are in $L$ and hence $A$ accepts them. Consider distribution of probabilities of the states
+of $A$ at moments when $A$ crosses the gap between $0^{m_s+u}}$ and $1^{n_s+u}$. Since all $p_i(t)$ are real numbers between 0 and 1, and there are infinitely many $\omega $-words $x_u$, there must exist an accumulation point $p_1(\infty ), p_2(\infty ), \cdots , p_k(\infty )$ such that for arbitrary
+$\epsilon > 0$ there exists a $u$ such that the distance between $p_1(u), p_2(u), \cdots , p_k(u)$ and $p_1(\infty ), p_2(\infty ), \cdots , p_k(\infty )$ is less than $\epsilon $. Hence there are two distinct  $u_1$ and $u_2$ such that the distance between the distributions $p_1(u_1), p_2(_1), \cdots , p_k(u_1)$
+and $p_1(u_2), p_2(_2), \cdots , p_k(u_2)$ is less that $0^{m_s+u}1^{n_s+u}$. Hence the probability to accept the word $x_{\mbox{combined}}$ containing a combined subword $0^{m_s+u_1}1^{n_s+u_2}$ differs from the probability to accept $x_{u_1}$ or $x_{u_2}$ no more that for $\frac{\delta }{r}$.
+
+The same construction in the fragment $0^{m_s+u+1}1^{n_s+u+1}$ using smaller value  $\delta ' = \frac{\delta }{2}$ gives another combined $\omega $-word where both the $u$-th and $u+1$-th fragments are corrupted. This way after infinitely many substitutions we get an $\omega $-word which is accepted with a probability 
+$1- \frac{3}{2}\delta $ but the word is not in $L$ because it contains infinitely many fragments where $m_u \neq n_u$.
+
+\biskip
+
+(3) Similar to (1).
+
+\bigskip
+
+(4) Similar to (2).
+
+\qed
+
+
+
+\begin{lemma} 
+\label{L1}
+For arbitrary natural number $z$ there is natural number $w$ such that
+if any 2-way deterministic finite automaton $A$ recognizes an $\omega $-language, has $z$ states and reads all symbols on the input tape, then there is a constant $c$ such that the automaton  crosses any point on the input tape
+no more than $c$ times.
+\end{lemma}
+
+{\bf Proof.}  For arbitrary  2-way deterministic finite automaton recognizing an $\omega $-language and having $z$ states and an arbitrary point $t$ on the input tape, by $l(j)$ and $r(j)$  we define two reflection functions $\{1,2,\cdots ,z\} \to \{1,2,\cdots ,z\}$ describing the state $q_{l(j)}$ (or $q_{r(j)}$, resp.) in which the automaton returns to the point $t$ after being crossed in the state $q_j$ in the direction from the right to the left (or from the left to the right, resp.). It is easy to see that for a fixed automaton the function $l(j)$ depends only on the first $t$ symbols of the $\omega $-word and not on the tail of the word.
+
+A {\em crossing sequence} of the automaton $A$ on an $\omega $-word $x$  at a point $t$ is the sequence of the states $q_{k_1}, q_{k_2}, \cdots , q_{k_s}$ at the moments when the automaton crosses the point $t$. If $q_{k_u} = q_{k_{u+2v}}$ the $q_{k_u} = q_{k_{u+2v}} =  q_{k_{u+4v}} = \cdots$ and the crossing sequence is infinitely long. This cannot happen if $A$ reads all symbols on the input tape. Hence $c \leq 2z$. \qed
+
+
+\begin{lemma}
+\label{L2} 
+If the $\omega $-words $x$ and $y$ are such that they have points $t_1$ and $t_2$ where the crossing sequences of $A$ are exactly the same then the combined word $w$ obtained by taking the head of $x$ till the point $t_1$ and the tail of $y$ after the point $t_2$ then the crossing sequence of $A$ on $w$ at the point $t_1$ coinsides with the two crossing sequences of $A$ on $x$ and $y$ at the points
+$t_1$ and $t_2$, respectively, and $A$ accepts $w$ iff $A$ accepts $y$.
+\end{lemma}
+
+{\bf Proof.} Immediate. \qed
+
+\bigskip
+
+\begin{theorem}
+(1) There exists no 2-way deterministic finite automaton recognizing  the language $L$.\\
+(2) There exists no 2-way frequency finite automaton recognizing  the language $L$ with frequency $(n,n)$.\\
+(3) There exists no 2-way frequency finite automaton recognizing  the language $L$ with frequency $(m,n)$ where $m > \frac{n}{2}$.
+\end{theorem}
+
+{\bf Proof.} (1)  Assume from the contrary that there exists a 2-way deterministic finite
+automaton $A$ recognizing $L$. 
+Every automaton recognizing $L$ is to read all symbols on the input tape. By Lemma \ref{L1}, the length of every crossing sequence of $A$ does not exceed $c$. 
+Consider an $\omega $-word
+$x = 0^{m_1}1^{n_1}20^{m_2}1^{n_2}2\cdots 20^{m_s}1^{n_s}2\cdots \in L$. 
+For arbitrary point $t$  denote by $p_1(t), p_2(t), \cdots , p_k(t)$ the crossing sequence of  $A$ at $t$. 
+
+Now consider a sequence of $\omega$-words differing from $x$ only in the $s$-th subword $0^{m_s}1^{n_s}$:
+$$
+x_1 = 0^{m_1}1^{n_1}20^{m_2}1^{n_2}2\cdots 20^{m_s+1}1^{n_s+1}2\cdots 
+$$
+$$
+x_2 = 0^{m_1}1^{n_1}20^{m_2}1^{n_2}2\cdots 20^{m_s+2}1^{n_s+2}2\cdots 
+$$
+$$
+\cdots 
+$$
+$$
+x_u = 0^{m_1}1^{n_1}20^{m_2}1^{n_2}2\cdots 20^{m_s+u}1^{n_s+u}2\cdots 
+$$
+$$
+\cdots \\
+$$
+Since $x \in L$, all these $\omega $-words are in $L$ and hence $A$ accepts them. Consider the crossing sequences
+of $A$ at points between $0^{m_s+u}}$ and $1^{n_s+u}$. There are only a finite number of possible crossing seuences of length not exceeding $c$.
+ Hence there are two distinct  $u_1$ and $u_2$ such that the crossing sequence is the same. Consider the word $x_{\mbox{combined}}$ containing a combined subword $0^{m_s+u_1}1^{n_s+u_2}$ but otherwise the same as the considered words. By Lemma \ref{L2} is also accepted by $A$. Repeating this construction for infinitely many values of $u$ we get an $\omega $-word which is accepted by $A$ but which is not in $L$. Contradiction.
+ 
+\bigskip
+
+(2) This part of our Theorem is not implied immediately from (1) because 
+even a $(2,2)$-automaton can use the other tape as a counter. For instance, the $\omega $-language
+$$
+M = \{0^{m_1}1^{n_1}20^{m_2}1^{n_2}2\cdots \mid (\exists b)(\forall s) (m_s = n_s = b)\}
+$$
+can be recognized by a deterministic finite $(2,2)$-automaton but not by a deterministic finite $(1,1)$-automaton.
+However, we prove below that $L$ cannot be recognized by any $(n,n)$-automaton. Indeed, 
+assume from the contrary that  there exists a 2-way deterministic finite
+$(n,n)$-automaton $A$ recognizing $L$. 
+ 
+Consider a natural number $b$ , an $\omega $-word $x = 0^b1^b20^b1^b2\cdots 20^b1^b2\cdots $ and an $n$-tuple of $\omega $-words
+$$
+x_{01} = 0120^b1^b20^b1^b2\cdots 20^b1^b2\cdots \\
+$$
+$$
+x_{02} = 0^21^220^b1^b20^b1^b2\cdots 20^b1^b2\cdots \\
+$$
+$$
+\cdots
+$$
+$$
+x_{0n} = 0^n1^n20^b1^b20^b1^b2\cdots 20^b1^b2\cdots \\
+$$
+These words are in $L$. Hence $A$ accepts all of them. It means that there is there is an accepting set of states $Q_1 = \{q_{k_1}, q_{k_2}, \cdots , q_{k_d}\}$
+and a moment $t$ such that when $A$ processes this $n$-tuple of $\omega $-words after the moment $t_1$ only states from $Q_1$ are entered and each state from 
+$Q_1$ is entered infinitely many times. Now we consider a natural number $u$ such that it is larger than the lengths of all inital fragments of $x_{01}, \cdots , x_{0n}$ observed by $A$ till the moment $t_1$. Denote by $y_{01}, y_{02}, \cdots , y_{0n}$ the initial fragments of $x_{01}, x_{02}, \cdots , x_{0n}$, respectively,
+of the length $u$. Consider an infinite sequence of $n$-tuples of $\omega $-words which differ only in the first component but have the same $x_{02}, x_{03}, \cdots , x_{0n}$. The first component are, respectively,
+$$
+y_{01}0120^b1^b20^b1^b2\cdots 20^b1^b2\cdots \\
+$$
+$$
+y_{01}0^21^220^b1^b20^b1^b2\cdots 20^b1^b2\cdots \\
+$$
+$$
+\cdots
+$$
+$$
+y_{01}0^s1^s20^b1^b20^b1^b2\cdots 20^b1^b2\cdots \\
+$$
+$$
+\cdots
+$$
+Since the sequence is infinite but, by Lemma \ref{L2}, the possibilities for the crossing sequences are limited, there two distinct $n$-tuples in this sequence 
+such that $A$ cannot distinguish between them and, moreover, enters only states from $Q_1$ are entered and each state from 
+$Q_1$ is entered infinitely many times. Let the two $n$-tuples have indices $i$ and $j$ in our sequence. Consider a combined first component
+$y_{01}0^i1^j20^b1^b20^b1^b2\cdots 20^b1^b2\cdots $. After the moment $t_1$ $A$ enters only the states from $Q_1$ on this combined $n$-tuple.
+
+Now let $t_2$ be a moment after $t_1$ such that each state from 
+$Q_1$ is entered at least once between moments $t_1$ and $t_2$. Again we consider an infinite sequence of $n$-tuples of $\omega $-words which differ only in one  component. However, now this component is the second component. 
+
+This way, we cyclically change the components and in the limit we get an $n$-tuple of $\omega $-words which is accepted but each component of which has infinitely many subwords $0^m1^n$ where $m\neq n$. Contradiction.
+
+
+
+
+
+Now consider a sequence of $\omega$-words differing from $x$ only in the $s$-th subword $0^{m_s}1^{n_s}$:
+$$
+x_1 = 0^{m_1}1^{n_1}20^{m_2}1^{n_2}2\cdots 20^{m_s+1}1^{n_s+1}2\cdots 
+$$
+$$
+x_2 = 0^{m_1}1^{n_1}20^{m_2}1^{n_2}2\cdots 20^{m_s+2}1^{n_s+2}2\cdots 
+$$
+$$
+\cdots 
+$$
+$$
+x_u = 0^{m_1}1^{n_1}20^{m_2}1^{n_2}2\cdots 20^{m_s+u}1^{n_s+u}2\cdots 
+$$
+$$
+\cdots \\
+$$
+Since $x \in L$, all these $\omega $-words are in $L$ and hence $A$ accepts them. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+\bigskip
+
+(3) We use the easily observable property of $L$ showing that if an $\omega $-word $x$ is in $L$ then changing any finite initial fragment of $x$ we again obtain an $\omega $-word $y \in L$. Assume from the contrary that $L$ is recognized by  $(m,n)$-automaton $A$ such that $m > \frac{n}{2}$. We wish to construct an 
+$(n,n)$-automaton for $L$. Given any $x$, we construct $n$ {\em distinct} $\omega $-words $x_1, x_2, \cdots , x_n$ by adding initial fragments
+$012, 00112, 0001112, \cdots , 000\cdots 111\cdots 2$ to $x$, applying $A$ to them and producing the result which coinsides with the majority of the results of
+$A$ on $x_1, x_2, \cdots , x_n$. This is a contradiction since we already proved in (2) inpossibility of such an automaton.\qed
+
+
+\begin{thebibliography}{99}
+
+\bibitem{AF86}
+Farid M. Ablayev, R\= usi\c n\v s Freivalds.
+Why sometimes probabilistic algorithms can be more effective. 
+{\em Lecture Notes in Computer Science,} vol. 233, pp. 1--14, 1986.
+
+\bibitem{AKN98}
+D. Aharonov, A. Kitaev and N. Nisan.
+Quantum Circuits with Mixed States.
+STOC, (1998) 20--30.
+
+
+\bibitem{ADHP05} 
+Holger Austinat, Volker Diekert, Ulrich Hertrampf, Holger Petersen.
+Regular frequency computations.
+{\em Theoretical Computer Science,} vol. 330 No. 1, pp. 15--20, 2005.
+
+\bibitem{BGB12}
+Christel Baier, Marcus Gr\" osser,  Nathalie Bertrand.
+Probabilistic $\omega $-Automata.
+{\em Journal of the ACM,} vol. 59, No. 1, doi 10.1145/ 2108242.2108243,  2012.
+
+
+\bibitem{BG05}
+Christel Baier, Marcus Gr\" osser.
+Recognizing $\omega$-regular languages with probabilistic automata.
+Proc. of the 20th IEEE Symposium on Logic in Computer Science, pp. 137--146, 2005.
+
+
+
+\bibitem{BGK96}
+Richard Beigel, William I. Gasarch, Efim B. Kinber.
+Frequency computation and bounded queries.
+{\em Theoretical Computer Science,} vol. 163, No. 1/2, pp. 177--192, 1996. 
+
+\bibitem{BP99}
+A. Brodsky, N. Pippenger:
+Characterizations of 1-Way Quantum Finite Automata.
+{\em SIAM Journal on Computing,} vol. 31, No. 5, pp. 1456--1478, 2002. 
+%
+\bibitem{Bu60}
+J.R.B\"uchi:
+On a decision method in restricted second order arithmetic. 
+Z. Math. Logik Grundlag. Math, {\bf 6} (1960) 66--92
+%
+ 
+
+\bibitem{C95}
+Cristian Calude.
+What Is a Random String?
+{\em Journal of Universal Computer Science,} vol. 1, No. 1, pp. 48--66, 1995.
+
+\bibitem{C05}
+Cristian Calude.
+Algorithmic Randomness, Quantum Physics, and Incompleteness.
+{\em Lecture Notes in Computer Science,} vol. 3354, pp. 1--17, 2005.
+
+\bibitem{CKKK97} 
+John Case, Susanne Kaufmann, Efim B. Kinber,  Martin Kummer.
+Learning recursive functions from approximations.
+{\em Journal of Computer and System Sciences,} vol. 55, No. 1, pp. 183--196, 1997. 
+  
+
+
+
+\bibitem{D81}
+A.N.Degtev.
+On (m,n)-computable sets.
+{\em Algebraic Systems,} Edited by D.I.~Moldavanskij,	 Ivanovo Gos. Universitet, pp. 88--99, 1981. 
+
+\bibitem{DB09}
+Ilze Dzelme-B\= erzi\c na.
+Mathematical logic and quantum finite state automata. 
+{\em Theoretical Computer Science,} vol. 410, No. 20, pp. 1952--1959, 2009.  
+
+ 
+\bibitem{F81}
+R\= usi\c n\v s Freivalds.
+Probabilistic Two-Way Machines.
+{\em Lecture Notes in Computer Science,} vol 118, pp. 33--45, 1981. 
+
+\bibitem{F82}
+R.Freivalds.
+On the growth of the number of states in result of the determinization of probabilistic finite automata.
+\textit{Avtomatika i Vichislitel'naya Tekhnika}, No. 3, pp. 39--42, 1982 (Russian)
+
+
+\bibitem{FK94}
+R\= usi\c n\v s Freivalds, Marek Karpinski. 
+Lower Space Bounds for Randomized Computation. 
+{\em Lecture Notes in Computer Science,} 820:580-592, 1994. 
+
+
+
+\bibitem{F91}
+R\= usi\c n\v s Freivalds.
+Complexity of probabilistic versus deterministic automata. 
+{\em Lecture Notes in Computer Science,} vol. 502, pp. 565--613, 1991.
+
+
+\bibitem{F91q}
+R\= usi\c n\v s Freivalds.
+Inductive Inference of Recursive Functions: Qualitative Theory.
+{\em Lecture Notes in Computer Science,} vol. 502, pp. 77--110, 1991.
+
+\bibitem{F91c}
+R\= usi\c n\v s Freivalds, J\= anis B\= arzdi\c n\v s, K\= arlis Podnieks. 
+Inductive Inference of Recursive Functions: Complexity Bounds.
+{\em Lecture Notes in Computer Science,} vol. 502, pp. 111--155, 1991.
+
+
+\bibitem{F98}
+R\= usi\c n\v s Freivalds.
+Models of computation, Riemann Hypothesis and classical mathematics.
+{\em Lecture Notes in Computer Science,} vol.1521, pp. 89--106, 1998.
+
+\bibitem{F08}
+R\= usi\c n\v s Freivalds.
+Non-constructive methods for finite probabilistic automata.
+{\em International Journal of Foundations of Computer Science,} vol. 19, No. 3, pp.565--580, 2008.
+
+\bibitem{F10}
+R\= usi\c n\v s Freivalds.
+Amount of nonconstructivity in finite automata. 
+{\em Theoretical Computer Science,} vol. 411, No. 38-39, pp.3436--3443, 2010.
+
+\bibitem{G67}
+E.M. Gold.
+Language identification in the limit.
+{\em Information and Control,} vol. 10, No. 5, pp. 447--474, 1967.
+
+\bibitem{SP02}
+E. Gr\"adel, W. Thomas, T. Wilke, editors: 
+Automata, Logics, and Infinite Games: A Guide to Current Research.
+Lecture Notes in Computer Science 2500. Springer. (2002)
+%
+
+
+\bibitem{HKO92}
+Valentina Harizanova, Martin Kummer, Jim Owings.
+Frequency computations and the cardinality theorem.
+{\em The Journal of Symbolic Logic,} vol. 57, No. 2, pp. 682--687, 1992.
+
+\bibitem{HW97}
+Maren Hinrichs and Gerd Wechsung.
+Time bounded frequency computations.
+{\em Information and Computation,} vol. 139, pp. 234-257, 1997.
+
+
+
+\bibitem{K72}
+Efim B. Kinber.
+Frequency calculations of general recursive predicates and frequency
+enumeration of sets.
+{\em Soviet Mathematics Doklady,} vol. 13, pp. 873--876, 1972.
+
+\bibitem{K73}
+Efim B. Kinber.
+On frequency real-time computations.
+{\em Teoriya Algoritmov i Programm,} (Edited by Ya.M.Barzdin) vol. 2, pp. 174--182, 1973 (Russian) 
+
+
+\bibitem{K76}
+Efim B. Kinber.
+Frequency computations in finite automata,
+{\em Kibernetika,} No. 2, pp. 7--15, 1976(Russian; English translation in Cybernetics 12 (1976) 179-187). 
+
+\bibitem{Ko97}
+A. Kondacs, J. Watrous:
+On the power of quantum finite state automata. 
+Proc. FOCS'97, (1997) 66--75.
+%
+
+
+\bibitem{K92}
+Martin Kummer.
+A proof of Beigel's Cardinality Conjecture. 
+{\em The Journal of Symbolic Logic,} vol. 57, No. 2, pp. 677--681, 1992.
+
+\bibitem{M56}
+E.F. Moore.
+Gedanken-experiments on sequential machines.
+{\em Automata Studies (Ann. of Math. Studies, No. 34),} Princeton Univ. Press, Princeton, N.J., pp. 129--153, 1956.
+
+\bibitem{Mu63}
+D.E. Muller. 
+Infinite sequences an finite machines.
+{\em Proc. 4th IEEE Symp. on Switching Circuit Theory and Logical Design,} pp. 3--16, 1963.
+
+\bibitem{M61}
+Robert McNaughton.
+The Theory of Automata, a Survey.
+{\em Advances in Computers,} vol. 2, pp. 379--421, 1961.
+
+\bibitem{Mc66}
+R. McNaughton: 
+Testing and generating infinite sequences by a finite automaton.
+Inform. Control, {\bf 9} (1966) 521--530
+%
+\bibitem{Mo97}
+C.Moore, J.Crutchfield:
+Quantum automata and quantum grammars
+Theoretical Computer Science, {\bf 237} (2000) 275--306.
+%
+\bibitem{Mu63}
+D.E. Muller: 
+Infinite sequences an finite machines.
+Proc. 4th IEEE Symp. on Switching Circuit Theory and Logical Design, (1963) 3--16
+%
+
+
+\bibitem{RS59}
+Michael O. Rabin and Dana Scott.
+Finite automata and their decision problems.
+{\em IBM Journal of Research and Development,} vol. 3, No. 2, pp. 115--125, 1959.
+
+\bibitem{Ra69}
+M.O. Rabin: 
+Decidability of second order theories and automata on infinite trees.
+Trans. AMS, {\bf 141} (1969) 1--37
+%
+
+\bibitem{R60}
+Gene F. Rose.
+An extended notion of computability.
+{\em Abstracts of International Congress for Logic, Methodology and Philosophy of Science,} p.14, 1960.
+
+\bibitem{RU63}
+Gene F. Rose and Joseph S. Ullian.
+Approximations of functions on the integers.
+{\em Pacific Journal of Mathematics,} vol.13 , No.2, pp.693--701, 1963.
+
+\bibitem{S61}
+Raymond M. Smullyan.
+{\em Theory of Formal Systems, Annals of Mathematics Studies,}
+No. 47, Princeton, N.J., 1961.
+
+\bibitem{T97}
+W. Thomas: 
+Languages, Automata, and Logic. 
+Handbook of Formal Languages 3, (1997) 389--455.
+
+
+\bibitem{T64}
+Boris A. Trakhtenbrot.
+On the frequency computation of functions.
+{\em Algebra i Logika,} vol. 2, pp.25--32, 1964 (Russian)
+
+
+
+
+
+\end{thebibliography}
+
+
+\end{document}
+
