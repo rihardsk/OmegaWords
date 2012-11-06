@@ -382,7 +382,7 @@ $$
 \cdots \\
 $$
 Since $x \in L$, all these $\omega $-words are in $L$ and hence $A$ accepts them. Consider the crossing sequences
-of $A$ at points between $0^{m_s+u}}$ and $1^{n_s+u}$. There are only a finite number of possible crossing seuences of length not exceeding $c$.
+of $A$ at points between $0^{m_s+u}}$ and $1^{n_s+u}$. There are only a finite number of possible crossing sequences of length not exceeding $c$.
  Hence there are two distinct  $u_1$ and $u_2$ such that the crossing sequence is the same. Consider the word $x_{\mbox{combined}}$ containing a combined subword $0^{m_s+u_1}1^{n_s+u_2}$ but otherwise the same as the considered words. By Lemma \ref{L2} is also accepted by $A$. Repeating this construction for infinitely many values of $u$ we get an $\omega $-word which is accepted by $A$ but which is not in $L$. Contradiction.
  
 \bigskip
@@ -412,7 +412,7 @@ x_{0n} = 0^n1^n20^b1^b20^b1^b2\cdots 20^b1^b2\cdots \\
 $$
 These words are in $L$. Hence $A$ accepts all of them. It means that there is there is an accepting set of states $Q_1 = \{q_{k_1}, q_{k_2}, \cdots , q_{k_d}\}$
 and a moment $t$ such that when $A$ processes this $n$-tuple of $\omega $-words after the moment $t_1$ only states from $Q_1$ are entered and each state from 
-$Q_1$ is entered infinitely many times. Now we consider a natural number $u$ such that it is larger than the lengths of all inital fragments of $x_{01}, \cdots , x_{0n}$ observed by $A$ till the moment $t_1$. Denote by $y_{01}, y_{02}, \cdots , y_{0n}$ the initial fragments of $x_{01}, x_{02}, \cdots , x_{0n}$, respectively,
+$Q_1$ is entered infinitely many times. Now we consider a natural number $u$ such that it is larger than the lengths of all initial fragments of $x_{01}, \cdots , x_{0n}$ observed by $A$ till the moment $t_1$. Denote by $y_{01}, y_{02}, \cdots , y_{0n}$ the initial fragments of $x_{01}, x_{02}, \cdots , x_{0n}$, respectively,
 of the length $u$. Consider an infinite sequence of $n$-tuples of $\omega $-words which differ only in the first component but have the same $x_{02}, x_{03}, \cdots , x_{0n}$. The first component are, respectively,
 $$
 y_{01}0120^b1^b20^b1^b2\cdots 20^b1^b2\cdots \\
@@ -477,8 +477,8 @@ Since $x \in L$, all these $\omega $-words are in $L$ and hence $A$ accepts them
 
 (3) We use the easily observable property of $L$ showing that if an $\omega $-word $x$ is in $L$ then changing any finite initial fragment of $x$ we again obtain an $\omega $-word $y \in L$. Assume from the contrary that $L$ is recognized by  $(m,n)$-automaton $A$ such that $m > \frac{n}{2}$. We wish to construct an 
 $(n,n)$-automaton for $L$. Given any $x$, we construct $n$ {\em distinct} $\omega $-words $x_1, x_2, \cdots , x_n$ by adding initial fragments
-$012, 00112, 0001112, \cdots , 000\cdots 111\cdots 2$ to $x$, applying $A$ to them and producing the result which coinsides with the majority of the results of
-$A$ on $x_1, x_2, \cdots , x_n$. This is a contradiction since we already proved in (2) inpossibility of such an automaton.\qed
+$012, 00112, 0001112, \cdots , 000\cdots 111\cdots 2$ to $x$, applying $A$ to them and producing the result which coincides with the majority of the results of
+$A$ on $x_1, x_2, \cdots , x_n$. This is a contradiction since we already proved in (2) impossibility of such an automaton.\qed
 
 
 \begin{thebibliography}{99}
