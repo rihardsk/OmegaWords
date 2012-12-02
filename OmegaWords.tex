@@ -91,7 +91,7 @@ An \textbf{$\omega$-automaton} is a quintuple $A = (Q, \Sigma, \delta, q_0, Acc)
 In a deterministic $\omega$-automaton, a transaction function $\delta : Q \times \Sigma \rightarrow Q$ is used.
 \end{definition}
 
-The acceptance component can be given in the different ways. We will consider three different definitions of acceptance component (they will be explained below). 
+The acceptance condition $Acc$ defines which of the infinite runs are accepting; it can be given in different ways. We will consider three of them (they will be explained below). 
 
 \begin{definition}
 Let $A = (Q, \Sigma, \delta, q_0, Acc)$ be an $\omega$-automaton. A \textbf{run} of A on an $\omega$-word $\alpha = \alpha_1 \alpha_2 ... \in \Sigma^{\omega}$ is an infinite state sequence $\rho = \rho(0)\rho(1)\rho(2)... \in Q^{\omega}$, such that the following holds:
@@ -101,7 +101,7 @@ Let $A = (Q, \Sigma, \delta, q_0, Acc)$ be an $\omega$-automaton. A \textbf{run}
 \end{enumerate}
 \end{definition}
 
-The acceptance condition $Acc$ defines which of the infinite runs are accepting. In this paper we consider the three types of acceptance conditions.
+
 
 \begin{definition}
 A \textbf{B\"uchi acceptance condition} $Acc$ is a subset $F$ of $Q$, where the elements of F are called accepting states. An infinite run $\rho=\rho(0)\rho(1)...$ is called B\"uchi accepting if $Inf(\rho)\cap F \neq \emptyset$, it means that run $\rho$ visits the states of $F$ infinitely often.
