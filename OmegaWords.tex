@@ -6,7 +6,7 @@
 \begin{document}
 
 
-\title{Probabilistic, frequency and quantum  automata on omega-words
+\title{Probabilistic and frequency automata on omega-words
 \thanks{%
 The research was supported by  Project 2009/0216/1DP/1.1.1.2.0/09/IPIA/VIA/044
 from the 
@@ -59,7 +59,7 @@ Frequency computations became increasingly popular when relation between frequen
 
 The study of finite state automata working on infinite words was initiated by B\"uchi \cite{Bu60}. B\"uchi discovered connection between formulas of the monadic second order logic of infinite sequences (S1S) and $\omega$-regular languages, the class of languages over infinite words accepted by finite state automata. Few years later, Muller proposed an alternative definition of finite state automata on infinite words \cite{Mu63}. McNaughton proved that with Muller's definition, deterministic finite state automata recognize all $\omega$-regular languages \cite{Mc66}. Later, Rabin extended the decidability result of B\"uchi for S1S to the monadic second order of the infinite binary tree (S2S) \cite{Ra69}. Rabin theorem can be used to settle a number of decision problems in logic. A theory of automata over infinite words has started from these studies.
 
-In the paper, we study probabilistic and frequency finite state automata over infinite words. The probabilistic variants of the finite state automata over infinite words have been recently introduced \cite{BG05}. I. Dzelme-B\= erzi\c na has extensively studied $\omega$-language recognition by quantum automata. She has proved that B\"uchi quantum finite state  automata with bounded error accept a proper subset of the limit languages. She has also shown that Streett acceptance condition is more powerful than B\"uchi acceptance condition also for quantum case. 
+In the paper, we study probabilistic and frequency finite state automata over infinite words. The probabilistic variants of the finite state automata over infinite words have been recently introduced \cite{BG05}.
 
 \section{Definitions and notations}
 %
@@ -77,7 +77,7 @@ An $\omega $-word belongs to $lim(U)$ iff it has infinitely many prefixes in U.
 %
 \subsection{Classical  automata}
 %
-In this section, first the basic concepts of $\omega$-automata are presented (for more details refer to \cite{SP02}, \cite{T97}) and then the $\omega$ - quantum finite state automata and group finite state $\omega$-automata are introduced.
+In this section, first the basic concepts of $\omega$-automata are presented (for more details refer to \cite{SP02}, \cite{T97}).
 %
 \begin{definition}
 An \textbf{$\omega$-automaton} is a quintuple $A = (Q, \Sigma, \delta, q_0, Acc)$, where
@@ -91,110 +91,9 @@ An \textbf{$\omega$-automaton} is a quintuple $A = (Q, \Sigma, \delta, q_0, Acc)
 In a deterministic $\omega$-automaton, a transaction function $\delta : Q \times \Sigma \rightarrow Q$ is used.
 \end{definition}
 
-The acceptance condition $Acc$ defines which of the infinite runs are accepting; it can be given in different ways. We will consider three of them (they will be explained below). 
-
-\begin{definition}
-Let $A = (Q, \Sigma, \delta, q_0, Acc)$ be an $\omega$-automaton. A \textbf{run} of A on an $\omega$-word $\alpha = \alpha_1 \alpha_2 ... \in \Sigma^{\omega}$ is an infinite state sequence $\rho = \rho(0)\rho(1)\rho(2)... \in Q^{\omega}$, such that the following holds:
-\begin{enumerate}
-\item $\rho(0) = q_0$
-\item $\rho(i) \in \delta(\rho (i-1), \alpha _i)$ for $i > 0$ if $A$ is a non-deterministic finite state $\omega$-automaton and $\rho(i) = \delta(\rho(i-1),\alpha_i)$ for $i > 0$ if $A$ is a deterministic finite state $\omega$-automaton.
-\end{enumerate}
-\end{definition}
-
-
-
-\begin{definition}
-A \textbf{B\"uchi acceptance condition} $Acc$ is a subset $F$ of $Q$, where the elements of F are called accepting states. An infinite run $\rho=\rho(0)\rho(1)...$ is called B\"uchi accepting if $Inf(\rho)\cap F \neq \emptyset$, it means that run $\rho$ visits the states of $F$ infinitely often.
-\end{definition}
-
-\begin{definition}
-A \textbf{Streett acceptance condition} $Acc$ is a finite set of pairs $(H_i,K_i)$ where $H_i$ and $K_i$ are subsets of $Q$ ($Acc=\{(H_1,K_1),...,(H_s,K_s)\})$. An infinite run $\rho=\rho(0)\rho(1)...$ is called Streett accepting if for each $i \in \{1, 2, ..., s\}$ $Inf(\rho)\cap H_i \neq \emptyset$ or $Inf(\rho)\cap K_i = \emptyset$.
-\end{definition}
-
-\begin{definition}
-A \textbf{Rabin acceptance condition} $Acc$ is a finite set of pairs $(H_i,K_i)$ where $H_i$ and $K_i$ are subsets of $Q$ ($Acc=\{(H_1,K_1),...,(H_s,K_s)\})$. An infinite run $\rho=\rho(0)\rho(1)...$ is called Rabin accepting if there is some $i \in \{1, 2, ..., s\}$ for which $Inf(\rho)\cap H_i = \emptyset$ and $Inf(\rho)\cap K_i \neq \emptyset$.
-\end{definition}
-
-The Streett condition is dual to the Rabin condition. It is therefore sometimes called complemented pair condition. B\"uchi acceptance condition can be considered as the special case of Streett $\{(F, Q)\}$ and Rabin acceptance $\{(\emptyset, F)\}$ conditions. 
-
-$\omega$-automata with B\"uchi acceptance condition are called B\"uchi automata, with Streett acceptance condition - Streett automata, and with Rabin acceptance condition - Rabin automata. 
-
-The accepted language of the $\omega$-automaton $A$ ($L(A)$) is defined as a set of infinite words $\alpha \in \Sigma$ which have accepting run in $A$.
-
-It is known that the classes of languages accepted by non-deterministic B\"uchi automata, deterministic Streett automata, non-deterministic Streett automata, deterministic Rabin automata, non-deterministic Rabin automata are the same. These are $\omega$-regular languages and can be represented by $\omega$-regular expressions (finite sums of expressions in the form $\alpha \beta^{\omega}$, where $\alpha$ and $\beta$ are regular expressions over finite words, and language defined by $\beta$ is non-empty and does not contain empty string). Deterministic B\"uchi automata (DBA) are less powerful, the class of DBA is a proper subclass of the $\omega$-regular languages, DBA recognize limit languages.
+The acceptance condition $Acc$ defines which of the infinite runs are accepting; it can be given in different ways. Usually three types of acceptance conditions are considered: B\"uchi acceptance condition, Streett acceptance condition and Rabin acceptance condition which are formally defined in \cite{BG05,SP02}.
 
 \bigskip
-
-\subsection{Quantum automata}
-
-Quantum finite state automata have also different notations. In this paper we will adapt %the two most popular definitions known as 
-a definition of measure-once quantum finite state automata \cite{Mo97} 
-%and measure-many quantum finite state automata \cite{Ko97} 
-for infinite words.
-%
-\begin{definition}
-A \textbf{quantum finite state $\omega$-automaton} is a quintuple $A=(Q, \Sigma, \delta, q_{0}, Acc)$
-\begin{itemize}
-\item $Q$ is a finite set of states,
-\item $\Sigma$ is a finite input alphabet,
-\item $\delta$ is the transition function $\delta : Q \times \Sigma \times Q \rightarrow C_{[0,1]}$, which represents the amplitudes that flows from the state $q \in Q$ to the state $q' \in Q$ after reading symbol $\sigma \in \Sigma$,
-\item $q_0 \in Q$ is the initial state,
-\item $Acc$ is the acceptance component. 
-\end{itemize}
-For all states $q_{1}, q_{2}, q' \in Q$ and symbols $\sigma \in \Sigma$, the function $\delta$ must be unitary, thus the transition function satisfies the condition 
-\begin{center}
-$\sum_{q'}\overline{\delta(q_{1}, \sigma,q')}\delta(q_{2},\sigma, q')=\left\{
-\begin{array}[pos]{l}
-	1 \ (q_{1} = q_{2}) \\
-	0 \ (q_{1} \neq q_{2})
-\end{array} \right.\ $.
-\end{center}
-\end{definition}
-%
-
-The linear superposition of the automaton's A states is represented by a n-dimensional complex unit vector, where $n=\left|Q\right|$. The superposition is denoted by $\left|\phi\right\rangle=\sum^{n}_{i=1}\alpha_{i} \left|q_{i}\right\rangle$, where $\left\{\left| q_{i}\right\rangle\right\}$ is the set orthonormal basis vectors corresponding to the states of the automaton A.
-
-The transition function $\delta$ is represented by a set of unitary matrices $\left\{V_{\sigma} \right\}_{\sigma \in \Sigma}$, where $V_{\sigma}$ is the unitary transition of the automaton A after reading the symbol $\sigma$ and is defined by $V_{\sigma}(\mid q \rangle)=\sum_{q'\in Q}\delta(q,\sigma , q')\mid q' \rangle$.
-
-A computation of the automaton A on an input word $\alpha=a_1a_2a_3.... \in \Sigma^{\omega}$ proceeds as follows. It starts computation in the superposition $\mid q_{0} \rangle$, a transition corresponding to the current input letter is performed. 
-%
-\begin{definition}
-Let $A = (Q, \Sigma, \delta, q_0, Acc)$ be a quantum finite state $\omega$-automaton. A \textbf{run} of A on an $\omega$-word $\alpha = a_1 a_2 ... \in \Sigma^{\omega}$ is an infinite sequence of superpositions $\psi_\omega = |\psi(0)\rangle|\psi(1)\rangle|\psi(2)\rangle...$, where $\left|\psi(j)\right\rangle=\sum^{n}_{i=1}\alpha_{i} \left|q_{i}\right\rangle$ ($\left\{\left| q_{i}\right\rangle\right\}$ is the set of the automaton's A states), such that the following holds:
-\begin{enumerate}
-\item $\mid \psi(0) \rangle = \mid q_{0} \rangle$
-\item $\mid \psi(i) \rangle = V_{a_i} \mid \psi(i-1) \rangle$ for $i > 0$.
-\end{enumerate}
-\end{definition}
-%
-
-The acceptance condition can be viewed in the similar way as for classical $\omega$-automata. In this paper, we examine quantum finite state $\omega$-automata with B\"uchi, Streett and Rabin acceptance condition and we use the abbreviations: QBA for B\"uchi quantum finite state automata, QSA for Streett quantum finite state automata, and QRA for Rabin quantum finite state automata.
-
-\begin{definition}
-A superposition $\left|\phi\right\rangle=\sum^{n}_{i=1}\alpha_{i} \left|q_{i}\right\rangle$ is called $F_p$- \textbf{accepting} ($F \subseteq Q$) if 
-\begin{center}
-$\sum_{q_i \in F}\vert\alpha_{i}\vert^2 \geq p$,
-\end{center}
-where $p$ is acceptance probability of the superposition.
-\end{definition}
-
-\begin{definition}
-A \textbf{B\"uchi acceptance condition for quantum case} $Acc$ is a subset $F$ of $Q$, where the elements of $F$ are called accepting states. An infinite run $\psi_\omega = |\psi(0)\rangle|\psi(1)\rangle|\psi(2)\rangle...$ is called B\"uchi accepting with probability $p$ if run $\psi_\omega$ visits $F_p$-accepting superpositions infinitely often.
-\end{definition}
-
-\begin{definition}
-A \textbf{Streett acceptance condition} $Acc$ is a finite set of pairs $(H_i,K_i)$ where $H_i$ and $K_i$ are subsets of $Q$ ($Acc={(H_1,K_1),...,(H_s,K_s)}.$ An infinite run $\psi_\omega = |\psi(0)\rangle|\psi(1)\rangle|\psi(2)\rangle...$ is called Streett accepting with probability $p$ if for each $i \in \{1, 2, ..., s\}$ $\psi_\omega$ contains infinite number of $H_{i\ p}$ accepting superpositions or $\psi_\omega$ contains only finite number of $K_{i\ p}$ accepting superpositions.
-\end{definition}
-
-\begin{definition}
-A \textbf{Rabin acceptance condition} $Acc$ is a finite set of pairs $(H_i,K_i)$ where $H_i$ and $K_i$ are subsets of $Q$ ($Acc={(H_1,K_1),...,(H_s,K_s)}.$ An infinite run $\psi_\omega = |\psi(0)\rangle|\psi(1)\rangle|\psi(2)\rangle...$ is called Rabin accepting with probability $p$ if there is some $i \in \{1, 2, ..., s\}$ for which $\psi_\omega$ contains only finite number of $H_{i\ p}$-accepting and $K_{i\ p}$ -accepting superpositions.
-\end{definition}
-%
-The language accepted by a quantum finite state $\omega$-automaton $A$ with the alphabet $\Sigma$ and cut-point $\lambda$, denoted $L_\lambda(A)$, is defined as set of infinite words $\sigma \in \Sigma$ that have accepting run with probability $p > \lambda$ in $A$. A quantum finite state $\omega$-automaton accepts language with bounded error if there exists an $\epsilon >0$ such that for all accepting runs probability is greater than $\lambda + \epsilon$.
-
-
-
-
-
 
 \section{Results}
 
@@ -216,9 +115,7 @@ diverges where $R = \{ k | m_k = n_k \}$.
  
 \begin{theorem}
 (1) There exists a 2-way probabilistic finite automaton recognizing  the language $L$ with probability 1.\\
-(2) There exists no 1-way probabilistic finite automaton recognizing  the language $L$ with a bounded error.\\
-(3) There exists a 2-way quantum finite automaton recognizing  the language $L$ with probability 1.\\
-(4) There exists no 1-way quantum finite automaton recognizing  the language $L$ with a bounded error.
+(2) There exists no 1-way probabilistic finite automaton recognizing  the language $L$ with a bounded error.
 \end{theorem}
 
 
@@ -308,14 +205,6 @@ and $p_1(u_2), p_2(_2), \cdots , p_k(u_2)$ is less that $0^{m_s+u}1^{n_s+u}$. He
 
 The same construction in the fragment $0^{m_s+u+1}1^{n_s+u+1}$ using smaller value  $\delta ' = \frac{\delta }{2}$ gives another combined $\omega $-word where both the $u$-th and $u+1$-th fragments are corrupted. This way after infinitely many substitutions we get an $\omega $-word which is accepted with a probability 
 $1- \frac{3}{2}\delta $ but the word is not in $L$ because it contains infinitely many fragments where $m_u \neq n_u$.
-
-\bigskip
-
-(3) Similar to (1).
-
-\bigskip
-
-(4) Similar to (2).
 
 \qed
 
@@ -483,8 +372,6 @@ Regular frequency computations.
 Christel Baier, Marcus Gr\" osser.
 Recognizing $\omega$-regular languages with probabilistic automata.
 Proc. of the 20th IEEE Symposium on Logic in Computer Science, pp. 137--146, 2005.
-
-
 
 \bibitem{BGK96}
 Richard Beigel, William I. Gasarch, Efim B. Kinber.
